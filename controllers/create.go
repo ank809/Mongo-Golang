@@ -95,3 +95,26 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, "Document deleted successfully")
 
 }
+
+func UpdateUser(c *gin.Context) {
+	id := c.Param("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		fmt.Println("Invalid id")
+		return
+	}
+	update := bson.M{"$set": bson.M{"name": "anshuman"}}
+	collection_name := "users"
+	coll := database.OpenCollection(database.Client, collection_name)
+	filter := bson.M{"_id": objectID}
+	res, err := coll.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if res.ModifiedCount == 0 {
+		fmt.Println("Document not found")
+		return
+	}
+	c.JSON(http.StatusOK, "Document updated successfully")
+}

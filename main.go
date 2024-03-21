@@ -11,5 +11,6 @@ func main() {
 	router.GET("/getusers", controllers.GetUser)
 	router.GET("/getusers/:id", controllers.GetUserById)
 	router.GET("deleteuser/:id", controllers.DeleteUser)
+	router.GET("updateuser/:id", controllers.UpdateUser)
 	router.Run(":8081")
 }
